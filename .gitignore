@@ -1,3 +1,12 @@
+#Node.js dependencies and build artifacts
+.DS_Store
+
+#Coverage Folder 
+coverage/
+
+#Temporary files
+.data/**
+
 # Logs
 logs
 *.log
