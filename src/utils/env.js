@@ -16,5 +16,5 @@ export function ensureEnv() {
     throw new Error('Invalid PORT. Please set PORT to a valid number.');
   }
 
-  return { PORT};
+  return { PORT };
 }

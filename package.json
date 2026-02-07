@@ -7,6 +7,8 @@
     "dev": "node --watch src/utils/server.js",
     "start": "node src/utils/server.js",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format:check": "prettier --check .",
     "format": "prettier --write .",
     "test": "vitest",
     "test:run": "vitest run",

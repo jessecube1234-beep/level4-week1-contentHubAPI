@@ -1,7 +1,7 @@
 {
-    "compilerOptions": {
-        "checkJs": false,
-        "baseUrl": ".",
-    },
-    "exclude": ["node_modules", ".data"]
+  "compilerOptions": {
+    "checkJs": false,
+    "baseUrl": "."
+  },
+  "exclude": ["node_modules", ".data"]
 }
