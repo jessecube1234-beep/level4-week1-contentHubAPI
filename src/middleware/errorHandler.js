@@ -23,11 +23,11 @@ export function errorHandler(err, _req, res, _next) {
     });
   }
 
-    // Unknown/unexpected errors
-    return res.status(500).json({
-      error: {
-        message: 'Internal Server Error',
-        code: 'internal-error',
-      },
-    });
-  }
+  // Unknown/unexpected errors
+  return res.status(500).json({
+    error: {
+      message: 'Internal Server Error',
+      code: 'internal-error',
+    },
+  });
+}
