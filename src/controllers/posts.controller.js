@@ -5,14 +5,14 @@ import { parsePagination } from '#utils/pagination';
  * GET /posts
  */
 export function listPosts(req, res) {
-    const { posts } = res.locals.repos;
+  const { posts } = res.locals.repos;
 
-    const { limit, offset } = parsePagination(req.query);
-    const result = posts.list( { limit, offset });
+  const { limit, offset } = parsePagination(req.query);
+  const result = posts.list({ limit, offset });
 
-    return res.ok (result.items, {
-        pagination: { limit, offset, total: result.total },
-    });
+  return res.ok(result.items, {
+    pagination: { limit, offset, total: result.total },
+  });
 }
 /**
  * GET /posts/:id
@@ -23,7 +23,7 @@ export function getPost(req, res) {
     //Get an ID from the requests
     const id = Number(req.params.id);
 
-    const post = posts.getByID(id);
+    const post = posts.getById(id);
 
     if (!post) {
         throw notFound(`Post not found`);

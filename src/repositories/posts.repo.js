@@ -1,6 +1,9 @@
 /**
  * Day 2: Extend the in-memory repo with getById and paginated list.
- * 
+ *
+ * This repository is responsible ONLY for data access.
+ * It does not know about Express, requests, or responses.
+ *
  * @typedef {{ id: number, title: string, body: string }} Post
  */
 
@@ -17,20 +20,27 @@ export function createPostsRepo() {
   let nextId = 1;
 
   return {
+    /**
+     * List posts with pagination.
+     * Day 2: still in-memory, later replaced with DB logic.
+     */
     list({ limit = 20, offset = 0 } = {}) {
-        const total = posts.length
-
-        // TODO: update this to the proper function
-        const filteredPosts = posts.slice(offset, offset + limit);
-
-        return { items: filteredPosts, total };
+      const total = posts.length;
+      const items = posts.slice(offset, offset + limit);
+      return { items, total };
     },
 
-    //Get a post by id
-    getByID (id) {
-      return posts.find((post) => post.id === id)
+    /**
+     * Get a single post by id.
+     * Returns null if the post does not exist.
+     */
+    getById(id) {
+      return posts.find((post) => post.id === id) || null;
     },
 
+    /**
+     * Create a new post.
+     */
     create({ title, body }) {
       const post = { id: nextId++, title, body };
       posts.push(post);
@@ -38,3 +48,4 @@ export function createPostsRepo() {
     },
   };
 }
+

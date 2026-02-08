@@ -11,7 +11,7 @@ import { respond }  from '#middleware/respond';
  * Factory that creates the Express app with injected dependencies.
  * This is the pattern that makes testing easy with Supertest.
  *
- * @param {{ repos: any }} deps
+ * @param {{ repos: any, config?: object }} deps
  * @returns {import('express').Express}
  */
 export function createApp({ repos, config = {} }) {
