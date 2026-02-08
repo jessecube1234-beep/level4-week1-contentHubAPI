@@ -4,6 +4,8 @@ import morgan from 'morgan';
 
 import { postsRouter } from '#routes/posts.routes';
 import { errorHandler } from '#middleware/errorHandler';
+import { notFoundHandler } from '#middleware/notFoundHandler';
+import { respond }  from '#middleware/respond';
 
 /**
  * Factory that creates the Express app with injected dependencies.
@@ -12,36 +14,44 @@ import { errorHandler } from '#middleware/errorHandler';
  * @param {{ repos: any }} deps
  * @returns {import('express').Express}
  */
-export function createApp({ repos }) {
-  // Express functions always return objects that have functionality built in
-  // Initialize the app object that's returned from the Express function
-  const app = express();
+export function createApp({ repos, config = {} }) {
+    // Express functions always return objects that have functionality built in
+    // Initialize the app object that's returned from the Express function
+    const app = express();
 
-  // Parse JSON request bodies
-  app.use(express.json());
+    app.locals.config = config;
 
-  // Security headers
-  app.use(helmet());
+    // Parse JSON request bodies
+    app.use(express.json());
 
-  // Request logging (dev-friendly)
-  app.use(morgan('dev'));
+    // Security headers
+    app.use(helmet());
 
-  // Health check endpoint
-  app.get('/health', (_req, res) => {
-    res.json({ status: 'ok', message: 'App is running correctly' });
-  });
+    // Request logging (dev-friendly)
+    app.use(morgan('dev'));
 
-  // Attach repositories to res.locals so controllers can access them
-  app.use((_req, res, next) => {
-    res.locals.repos = repos;
-    next();
-  });
+    // Response helpers (res.ok/res.createed/etc)
+    app.use(respond);
 
-  // Routes
-  app.use('/posts', postsRouter);
+    // Health check endpoint
+    app.get('/health', (_req, res) => {
+        res.json({ status: 'ok', message: 'App is running correctly' });
+    });
 
-  // Error handling middleware must be last (4 args signature)
-  app.use(errorHandler);
+    // Attach repositories to res.locals so controllers can access them
+    app.use((_req, res, next) => {
+        res.locals.repos = repos;
+        next();
+    });
 
-  return app;
+    // Routes
+    app.use('/posts', postsRouter);
+
+    // Caught not defined routes with a specific message
+    app.use(notFoundHandler);
+
+    // Error handling middleware must be last (4 args signature)
+    app.use(errorHandler);
+
+    return app;
 }
