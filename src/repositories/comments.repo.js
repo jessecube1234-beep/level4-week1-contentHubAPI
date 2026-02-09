@@ -1,13 +1,13 @@
 /**
  * Day 2: in-memory comments, nested under posts.
  *
- * @typedef {{ id: number, postId: number, body: string }} Comment
+ * @typedef {{ id: number, postId: number, body: string, authorId: number }} Comment
  */
 
 /**
  * @typedef {Object} CommentsRepo
  * @property {(postId: number, opts?: {limit?: number, offset?: number}) => { items: Comment[], total: number }} listForPost
- * @property {(data: {postId: number, body: string}) => Comment} create
+ * @property {(data: {postId: number, body: string, authorId: number}) => Comment} create
  */
 
 export function createCommentsRepo() {
@@ -21,6 +21,10 @@ export function createCommentsRepo() {
       const total = all.length;
       const items = all.slice(offset, offset + limit);
       return { items, total };
+    },
+
+    getById(id) {
+      return comments.find((c) => c.id === id) ?? null;
     },
 
     create({ postId, body }) {
