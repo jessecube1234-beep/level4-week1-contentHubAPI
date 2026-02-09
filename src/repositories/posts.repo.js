@@ -50,7 +50,6 @@ export function createPostsRepo() {
       return post;
     },
 
-
     update({ id, title, body, authorId }) {
       const post = posts.find((p) => p.id === id) ?? null;
       if (!post) return null;

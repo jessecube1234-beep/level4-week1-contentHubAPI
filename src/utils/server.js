@@ -6,11 +6,11 @@ const env = ensureEnv();
 const repos = await createRepos();
 
 // The main app
-const app = createApp({ 
+const app = createApp({
   repos,
   config: {
     JWT_SECRET: env.JWT_SECRET,
-  }, 
+  },
 });
 
 // Start the server

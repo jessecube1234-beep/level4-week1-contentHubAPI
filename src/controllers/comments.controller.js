@@ -38,7 +38,6 @@ export function createCommentForPost(req, res) {
   return res.created(created);
 }
 
-
 /**
  * PUT /comments/:id (AUTH + OWNER)
  */
