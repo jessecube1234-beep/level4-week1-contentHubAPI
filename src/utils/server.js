@@ -1,9 +1,18 @@
 import { ensureEnv } from '#utils/env';
 import { createApp } from '#app';
 import { createRepos } from '#repositories/index';
+import { openDatabase } from '../db/migrations/database.js';
+import { runMigrations } from '../db/migrations/migrate.js';
 
 const env = ensureEnv();
-const repos = await createRepos();
+
+// Open SQLite database
+const db = openDatabase(env.DB_HOST);
+
+// Run migrations
+runMigrations(db);
+
+const repos = await createRepos(db);
 
 // The main app
 const app = createApp({

@@ -15,6 +15,9 @@ export function ensureEnv() {
   //Load the JWT variable
   const JWT_SECRET = process.env.JWT_SECRET ?? '';
 
+  // Load DB PATH
+  const DB_HOST = process.env.DB_HOST ?? '';
+
   if (!Number.isFinite(PORT) || PORT <= 0) {
     throw new Error('Invalid PORT. Please set PORT to a valid number.');
   }
@@ -24,5 +27,10 @@ export function ensureEnv() {
     throw new Error('Invalid JWT_SECRET. Please set a long random string (32+ chars)');
   }
 
-  return { PORT, JWT_SECRET };
+  // Validation for DB_HOST
+  if (!DB_HOST.trim()) {
+    throw new Error('Invalid DB_HOST. Please set a valid path for the database.');
+  }
+
+  return { PORT, JWT_SECRET, DB_HOST };
 }
